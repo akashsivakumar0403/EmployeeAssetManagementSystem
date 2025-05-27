@@ -1,4 +1,5 @@
 package com.eams.entity;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -23,7 +24,7 @@ public class User {
     private Role role;
 
     public enum Role {
-        MANAGER, OPERATOR,ADMIN
+        MANAGER, OPERATOR, ADMIN
     }
 
     public User() {}
@@ -35,14 +36,57 @@ public class User {
         this.role = role;
     }
 
+    // ✅ Getters
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    // ✅ Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    // toString
     @Override
     public String toString() {
         return "User{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", username='" + username + '\'' +
-               ", password='" + password + '\'' +
-               ", role=" + role +
-               '}';
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

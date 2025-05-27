@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class EamsApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(EamsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(EamsApplication.class, args);
+    }
 }
