@@ -4,25 +4,26 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class SensorData {
+public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String assetName;
-    private double temperature;
-    private double pressure;
+    private String message;
+    private String type;  // TEMPERATURE or PRESSURE
+    private double value;
     private LocalDateTime timestamp;
 
-    public SensorData() {}
+    public Alert() {}
 
-    public SensorData(String assetName, double temperature, double pressure, LocalDateTime timestamp) {
+    public Alert(String assetName, String message, String type, double value, LocalDateTime timestamp) {
         this.assetName = assetName;
-        this.temperature = temperature;
-        this.pressure = pressure;
+        this.message = message;
+        this.type = type;
+        this.value = value;
         this.timestamp = timestamp;
     }
 
     // Getters and Setters...
 }
-

@@ -1,5 +1,6 @@
 package com.eams.dto;
 
+
 public class RegistrationRequest {
     private String name;
     private String username;
