@@ -9,49 +9,42 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
-    public User() {
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public enum Role {
+        MANAGER, OPERATOR
     }
 
-    public User(String username, String password) {
+    public User() {}
+
+    public User(String name, String username, String password, Role role) {
+        this.name = name;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    // Getters and setters for all fields
 
     @Override
     public String toString() {
         return "User{" +
                "id=" + id +
+               ", name='" + name + '\'' +
                ", username='" + username + '\'' +
                ", password='" + password + '\'' +
+               ", role=" + role +
                '}';
     }
 }
