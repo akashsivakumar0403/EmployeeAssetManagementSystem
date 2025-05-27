@@ -22,7 +22,7 @@ public class AuthController {
     @Autowired
     private IRoleDescriptionRepository roleDescriptionRepository;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
         boolean success = loginService.login(username, password);
         if (success) {
