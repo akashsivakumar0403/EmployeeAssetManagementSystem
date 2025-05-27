@@ -4,7 +4,7 @@ public class RegistrationRequest {
     private String name;
     private String username;
     private String password;
-    private String role; // "MANAGER" or "OPERATOR"
+    private String role; 
 
     public RegistrationRequest() {
     }

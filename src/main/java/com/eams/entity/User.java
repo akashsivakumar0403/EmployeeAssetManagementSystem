@@ -23,7 +23,7 @@ public class User {
     private Role role;
 
     public enum Role {
-        MANAGER, OPERATOR
+        MANAGER, OPERATOR,ADMIN
     }
 
     public User() {}
@@ -34,8 +34,6 @@ public class User {
         this.password = password;
         this.role = role;
     }
-
-    // Getters and setters for all fields
 
     @Override
     public String toString() {
