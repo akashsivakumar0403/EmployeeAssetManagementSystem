@@ -23,10 +23,16 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html",
+                    "/swagger-ui/index.html"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(); // enables Basic Auth
+            .httpBasic(); // enables Basic Auth for other endpoints
 
         return http.build();
     }
