@@ -35,6 +35,7 @@ public class SecurityConfig {
             .httpBasic(); // enables Basic Auth for other endpoints
 
         return http.build();
+        
     }
 
     @Bean
