@@ -11,19 +11,26 @@ public class RegistrationService {
 
     @Autowired
     private IUserRepository userRepository;
-
     public String register(RegistrationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             return "Username already exists.";
         }
+
+        String roleString = request.getRole();
+        if (roleString == null || roleString.trim().isEmpty()) {
+            return "Role is required.";
+        }
+
         User.Role role;
         try {
-            role = User.Role.valueOf(request.getRole().toUpperCase());
+            role = User.Role.valueOf(roleString.trim().toUpperCase());
         } catch (IllegalArgumentException ex) {
             return "Invalid role. Allowed values: MANAGER, OPERATOR.";
         }
+
         User user = new User(request.getName(), request.getUsername(), request.getPassword(), role);
         userRepository.save(user);
         return "Registration successful!";
     }
+
 }

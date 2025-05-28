@@ -65,3 +65,4 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Integer>
     @Query("SELECT s FROM SensorData s WHERE s.timestamp >= :since ORDER BY s.timestamp DESC")
     List<SensorData> findRecentSensorData(@Param("since") LocalDateTime since);
 }
+

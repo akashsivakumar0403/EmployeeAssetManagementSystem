@@ -3,6 +3,7 @@ package com.eams.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "sensor_data")
 public class SensorData {
@@ -110,3 +111,4 @@ public class SensorData {
                 '}';
     }
 }
+
