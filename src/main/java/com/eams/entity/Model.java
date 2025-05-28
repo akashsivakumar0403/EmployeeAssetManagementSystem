@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "role_descriptions")
 public class Model {
 
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
