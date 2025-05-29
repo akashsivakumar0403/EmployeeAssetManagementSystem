@@ -3,6 +3,7 @@ package com.eams.service;
 import com.eams.dto.UserDto;
 import com.eams.entity.User;
 import com.eams.repository.IUserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +28,20 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    
-    public void updateUserRole(int id, Object object) {
-        User user = userRepository.findById(id) 
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public void updateUserRole(int id, String roleStr) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+        if (roleStr == null || roleStr.trim().isEmpty()) {
+            throw new IllegalArgumentException("Role must not be empty");
+        }
 
         try {
-            user.setRole(Enum.valueOf(User.Role.class, ((String) object).toUpperCase()));
+            User.Role role = User.Role.valueOf(roleStr.trim().toUpperCase());
+            user.setRole(role);
             userRepository.save(user);
         } catch (IllegalArgumentException ex) {
-            throw new RuntimeException("Invalid role: must be MANAGER, OPERATOR, or ADMIN");
+            throw new IllegalArgumentException("Invalid role: must be MANAGER, OPERATOR, or ADMIN");
         }
     }
 }

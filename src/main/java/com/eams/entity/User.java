@@ -35,8 +35,6 @@ public class User {
         this.password = password;
         this.role = role;
     }
-
-    // ✅ Getters
     public int getId() {
         return id;
     }
@@ -57,7 +55,6 @@ public class User {
         return role;
     }
 
-    // ✅ Setters
     public void setId(int id) {
         this.id = id;
     }
