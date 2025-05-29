@@ -11,6 +11,8 @@ public class RegistrationService {
 
     @Autowired
     private IUserRepository userRepository;
+    
+    
     public String register(RegistrationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             return "Username already exists.";
