@@ -1,8 +1,12 @@
 package com.eams.service;
 
 import com.eams.entity.Alert;
+import com.eams.entity.AlertSeverity;
+import com.eams.entity.Employee;
 import com.eams.entity.Threshold;
 import com.eams.repository.AlertRepository;
+import com.eams.repository.EmployeeRepository;
+import com.eams.repository.SnoozedAlertTypeRepository;
 import com.eams.repository.ThresholdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlertService {
@@ -24,7 +29,13 @@ public class AlertService {
     private AlertRepository alertRepository;
 
     @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private SnoozedAlertTypeRepository snoozedAlertTypeRepository;
 
     private static final String STATUS_ACTIVE = "ACTIVE";
     private static final String STATUS_RESOLVED = "RESOLVED";
@@ -58,7 +69,7 @@ public class AlertService {
         if (!activeAlerts.isEmpty()) {
             Alert recentAlert = activeAlerts.get(0);
             LocalDateTime lastAlertTime = recentAlert.getCreatedAt();
-            Long frequency = threshold.getFrequencyInMinutes();
+            Long frequency = threshold.getAlertFrequencyMinutes();
             if (frequency == null) frequency = 0L;  // default 0 if not set
             if (lastAlertTime.plusMinutes(frequency).isAfter(LocalDateTime.now())) {
                 // Frequency threshold not met, skip alert
@@ -84,7 +95,19 @@ public class AlertService {
         }
     }
 
-    // Create alert and send email notification
+    // Create alert and send email notification to all managers, with snooze and severity checks
+    public void handleAlert(Alert alert) {
+        alertRepository.save(alert);
+
+        // Skip email if alert is non-critical and snoozed
+        if (alert.getSeverity() != AlertSeverity.CRITICAL && isAlertSnoozed(alert)) {
+            System.out.println("Alert snoozed: " + alert.getAlertType());
+            return;
+        }
+
+        sendAlertEmailToManagers(alert);
+    }
+
     private void triggerAlert(String sensorName, Double sensorValue, String alertType, String message) {
         Alert alert = new Alert();
         alert.setSensorName(sensorName);
@@ -93,18 +116,36 @@ public class AlertService {
         alert.setMessage(message);
         alert.setCreatedAt(LocalDateTime.now());
         alert.setAlertType(alertType);
+        alert.setSeverity(AlertSeverity.WARNING);  // example default severity, adjust as needed
 
-        alertRepository.save(alert);
-
-        sendEmailAlert(sensorName, message);
+        handleAlert(alert);
     }
 
-    private void sendEmailAlert(String sensorName, String message) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo("technician@example.com"); // Replace with real recipients or config
-        mailMessage.setSubject("Alert: Sensor " + sensorName);
-        mailMessage.setText(message);
-        mailSender.send(mailMessage);
+    // Send email to all managers with role "MANAGER"
+    private void sendAlertEmailToManagers(Alert alert) {
+        List<Employee> managers = employeeRepository.findByRole("MANAGER");
+
+        List<String> emailList = managers.stream()
+                                         .map(Employee::getEmail)
+                                         .collect(Collectors.toList());
+
+        if (emailList.isEmpty()) {
+            System.out.println("No managers found to send alert");
+            return;
+        }
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("rs7442726@gmail.com");
+        message.setTo(emailList.toArray(new String[0]));
+        message.setSubject("Alert Triggered: " + alert.getAlertType());
+        message.setText("An alert has been triggered:\n\n" +
+                        "Type: " + alert.getAlertType() + "\n" +
+                        "Message: " + alert.getMessage() + "\n" +
+                        "Sensor: " + alert.getSensorName() + "\n" +
+                        "Value: " + alert.getSensorValue() + "\n" +
+                        "Time: " + alert.getCreatedAt());
+
+        mailSender.send(message);
     }
 
     // Allow user to snooze alerts
@@ -122,12 +163,11 @@ public class AlertService {
     public void updateAlertFrequency(Long thresholdId, long frequencyMinutes) {
         Optional<Threshold> thresholdOpt = thresholdRepository.findById(thresholdId);
         thresholdOpt.ifPresent(threshold -> {
-            threshold.setFrequencyInMinutes(frequencyMinutes);
+            threshold.setAlertFrequencyMinutes(frequencyMinutes);  // ✅ correct method name
             thresholdRepository.save(threshold);
         });
     }
-
-    // Admin can create or update sensor threshold
+ // Admin can create or update sensor threshold
     public Threshold setThreshold(String sensorName, Double lowerLimit, Double upperLimit) {
         Optional<Threshold> thresholdOpt = thresholdRepository.findBySensorName(sensorName);
         Threshold threshold;
@@ -141,15 +181,23 @@ public class AlertService {
             threshold.setLowerLimit(lowerLimit);
             threshold.setUpperLimit(upperLimit);
             threshold.setSnoozed(false);
-            threshold.setFrequencyInMinutes(0L);
+            threshold.setAlertFrequencyMinutes(0L);  
         }
         return thresholdRepository.save(threshold);
     }
+
+   
 
     // Get all currently active alerts
     public List<Alert> getActiveAlerts() {
         return alertRepository.findAll().stream()
                 .filter(alert -> STATUS_ACTIVE.equals(alert.getStatus()))
                 .toList();
+    }
+
+    public boolean isAlertSnoozed(Alert alert) {
+        return snoozedAlertTypeRepository.findByAlertTypeAndAssetId(alert.getAlertType(), alert.getAssetId())
+                .filter(snoozed -> snoozed.getSnoozedUntil().isAfter(LocalDateTime.now()))
+                .isPresent();
     }
 }

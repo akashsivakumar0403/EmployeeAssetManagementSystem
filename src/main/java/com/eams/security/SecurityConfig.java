@@ -25,6 +25,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/auth/**",
+                    "/api/alerts/**",       
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
                     "/swagger-ui.html",
@@ -32,17 +33,16 @@ public class SecurityConfig {
                 ).permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(); // enables Basic Auth for other endpoints
+            .httpBasic();
 
         return http.build();
-        
     }
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails manager = User.builder()
-                .username("manager")
-                .password(encoder.encode("manager123"))
+                .username("rs7442726@gmail.com")
+                .password(encoder.encode("adjg pjzn rtit nyfo")) 
                 .roles("MANAGER")
                 .build();
 
