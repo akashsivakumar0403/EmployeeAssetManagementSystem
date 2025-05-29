@@ -12,9 +12,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -54,6 +57,7 @@ public class AuthController {
                     content = @Content)
     })
     @PostMapping("/register")
+
     public ResponseEntity<String> register(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Registration details",
@@ -62,20 +66,25 @@ public class AuthController {
             @Valid @RequestBody RegistrationRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.status(409).body("Username already exists.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists.");
+
         }
 
         User.Role role;
         try {
             role = User.Role.valueOf(request.getRole().toUpperCase());
         } catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body("Invalid role. Allowed values: MANAGER, OPERATOR, ADMIN.");
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role. Allowed values: MANAGER, OPERATOR, ADMIN.");
+
         }
 
         User user = new User(request.getName(), request.getUsername(), request.getPassword(), role);
         userRepository.save(user);
         return ResponseEntity.ok("Registration successful!");
     }
+
+
 
     @Operation(summary = "Get responsibilities for a specific role")
     @ApiResponses(value = {
