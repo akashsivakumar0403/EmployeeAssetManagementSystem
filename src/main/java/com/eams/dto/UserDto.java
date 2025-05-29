@@ -1,23 +1,11 @@
 package com.eams.dto;
 
 import com.eams.entity.User.Role;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 public class UserDto {
     private int id;
-
-    @NotBlank(message = "Name is required")
-    @Size(min = 3, max = 50, message = "Name must be 3-50 characters")
-    @Pattern(regexp = "^[A-Za-z\\s'-]+$", message = "Name can only contain letters, spaces, hyphens, and apostrophes")
     private String name;
-
-    @NotBlank(message = "Username is required")
-    @Size(min = 4, max = 20, message = "Username must be 4-20 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username can only contain letters, numbers, dots, underscores, and hyphens")
     private String username;
-
     private Role role;
 
     public UserDto() {
