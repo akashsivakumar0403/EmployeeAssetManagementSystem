@@ -18,20 +18,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
-    }
-
-    
-    @PutMapping("/{id}/role")
-    public ResponseEntity<String> updateUserRole(
-            @PathVariable Integer id,
-            @RequestBody RoleUpdateRequest request
-    ) {
-        userService.updateUserRole(id, request.getRole());
-        return ResponseEntity.ok("User role updated successfully.");
     }
 }
