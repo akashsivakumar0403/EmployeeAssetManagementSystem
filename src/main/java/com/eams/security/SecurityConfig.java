@@ -35,14 +35,13 @@ public class SecurityConfig {
             .httpBasic(); // enables Basic Auth for other endpoints
 
         return http.build();
-        
     }
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails manager = User.builder()
-                .username("manager")
-                .password(encoder.encode("manager123"))
+                .username("rs7442726@gmail.com")
+                .password(encoder.encode("#messi10#"))
                 .roles("MANAGER")
                 .build();
 

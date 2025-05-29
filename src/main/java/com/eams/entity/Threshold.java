@@ -15,7 +15,7 @@ public class Threshold {
     private Double lowerLimit;
     private Double upperLimit;
 
-    private Boolean snoozed; // nullable
+    private Boolean snoozed; 
 
     private Long snoozeUntilEpoch;
 

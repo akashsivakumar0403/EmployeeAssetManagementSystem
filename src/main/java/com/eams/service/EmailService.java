@@ -17,10 +17,11 @@ public class EmailService {
 
     public void sendAlertEmail(String sensorName, double value) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("mad@gmail.com");
+        message.setTo("rs7442726@gmail.com");
         message.setSubject("Alert: Sensor Threshold Breached");
         message.setText("Sensor " + sensorName + " reported value: " + value);
         message.setFrom(from);
         mailSender.send(message);
     }
 }
+

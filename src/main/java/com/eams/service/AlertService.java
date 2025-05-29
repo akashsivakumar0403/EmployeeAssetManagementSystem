@@ -101,7 +101,7 @@ public class AlertService {
 
     private void sendEmailAlert(String sensorName, String message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo("technician@example.com"); // Replace with real recipients or config
+        mailMessage.setTo("rs7442726@gmail.com"); 
         mailMessage.setSubject("Alert: Sensor " + sensorName);
         mailMessage.setText(message);
         mailSender.send(mailMessage);
