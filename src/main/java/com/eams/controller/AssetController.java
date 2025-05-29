@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid; 
-
 import java.util.List;
 
 @RestController
@@ -20,13 +18,13 @@ public class AssetController {
 
     // Add New Asset
     @PostMapping
-    public ResponseEntity<AssetResponseDTO> addAsset(@Valid @RequestBody AssetRequestDTO dto) {
+    public ResponseEntity<AssetResponseDTO> addAsset(@RequestBody AssetRequestDTO dto) {
         return ResponseEntity.ok(assetService.addAsset(dto));
     }
 
     // Edit Asset Details
     @PutMapping("/{id}")
-    public ResponseEntity<AssetResponseDTO> updateAsset(@PathVariable int id, @Valid @RequestBody AssetRequestDTO dto) {
+    public ResponseEntity<AssetResponseDTO> updateAsset(@PathVariable int id, @RequestBody AssetRequestDTO dto) {
         return ResponseEntity.ok(assetService.updateAsset(id, dto));
     }
 
