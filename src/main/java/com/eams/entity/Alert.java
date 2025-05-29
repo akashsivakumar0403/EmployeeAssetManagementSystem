@@ -13,7 +13,6 @@ public class Alert {
 
     private String sensorName;
     private Double sensorValue;
-
     private String status;
     private String message;
 
@@ -22,9 +21,14 @@ public class Alert {
 
     private String alertType;
 
+    @Enumerated(EnumType.STRING)
+    private AlertSeverity severity;
+
+    private Long assetId; // Used to snooze alerts per asset if needed
+
     public Alert() {}
 
-    // Getters and Setters for all fields
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -88,5 +92,21 @@ public class Alert {
 
     public void setAlertType(String alertType) {
         this.alertType = alertType;
+    }
+
+    public AlertSeverity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(AlertSeverity severity) {
+        this.severity = severity;
+    }
+
+    public Long getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
     }
 }

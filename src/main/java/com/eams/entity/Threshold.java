@@ -15,15 +15,17 @@ public class Threshold {
     private Double lowerLimit;
     private Double upperLimit;
 
-    private Boolean snoozed; 
+    private Boolean snoozed;
 
     private Long snoozeUntilEpoch;
 
-    private Long frequencyInMinutes;
+    // Use only this field for alert frequency (rename as you prefer)
+    @Column(name = "alert_frequency_minutes")
+    private Long alertFrequencyMinutes;
 
     public Threshold() {}
 
-    // Getters and setters for all fields
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -73,15 +75,13 @@ public class Threshold {
         this.snoozeUntilEpoch = snoozeUntilEpoch;
     }
 
-    public Long getFrequencyInMinutes() {
-        return frequencyInMinutes;
+    public Long getAlertFrequencyMinutes() {
+        return alertFrequencyMinutes;
     }
 
-    public void setFrequencyInMinutes(Long frequencyInMinutes) {
-        this.frequencyInMinutes = frequencyInMinutes;
+    public void setAlertFrequencyMinutes(Long alertFrequencyMinutes) {
+        this.alertFrequencyMinutes = alertFrequencyMinutes;
     }
-
-    // Convenience method to check if snoozed
 
     public boolean isSnoozed() {
         return Boolean.TRUE.equals(snoozed);
