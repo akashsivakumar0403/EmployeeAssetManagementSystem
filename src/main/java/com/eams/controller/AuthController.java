@@ -32,7 +32,7 @@ public class AuthController {
     @Autowired
     private IRoleDescriptionRepository roleDescriptionRepository;
 
-    @Operation(summary = "Login with username and password")
+    @Operation(summary = "Login     with username and password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login result",
                     content = @Content(mediaType = "text/plain"))
