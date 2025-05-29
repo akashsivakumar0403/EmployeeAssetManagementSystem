@@ -1,12 +1,12 @@
 package com.eams.controller;
 
+import com.eams.dto.LoginRequest;
 import com.eams.dto.RegistrationRequest;
 import com.eams.entity.User;
 import com.eams.repository.IUserRepository;
 import com.eams.repository.IRoleDescriptionRepository;
 import com.eams.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,36 +33,50 @@ public class AuthController {
     private IRoleDescriptionRepository roleDescriptionRepository;
 
     @Operation(summary = "Login with username and password")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login result",
-                    content = @Content(mediaType = "text/plain"))
-    })
-    @GetMapping("/login")
-    public String login(
-            @Parameter(description = "Username") @RequestParam String username,
-            @Parameter(description = "Password") @RequestParam String password) {
-        boolean success = loginService.login(username, password);
-        return success ? "Login successful!" : "Invalid username or password.";
+    @ApiResponse(responseCode = "200", description = "Login result",
+            content = @Content(mediaType = "text/plain"))
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Login details",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = LoginRequest.class)))
+            @Valid @RequestBody LoginRequest loginRequest) {
+
+        boolean success = loginService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        return success ?
+                ResponseEntity.ok("Login successful!") :
+                ResponseEntity.status(401).body("Invalid username or password.");
     }
 
     @Operation(summary = "Register a new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Registration result",
                     content = @Content(mediaType = "text/plain")),
-            @ApiResponse(responseCode = "400", description = "Invalid input",
+            @ApiResponse(responseCode = "409", description = "Username already exists",
                     content = @Content)
     })
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegistrationRequest request) {
+
+    public ResponseEntity<String> register(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Registration details",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = RegistrationRequest.class)))
+            @Valid @RequestBody RegistrationRequest request) {
+
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists.");
+
         }
 
         User.Role role;
         try {
             role = User.Role.valueOf(request.getRole().toUpperCase());
         } catch (IllegalArgumentException ex) {
+
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid role. Allowed values: MANAGER, OPERATOR, ADMIN.");
+
         }
 
         User user = new User(request.getName(), request.getUsername(), request.getPassword(), role);
@@ -83,7 +97,6 @@ public class AuthController {
     })
     @GetMapping("/role-description/{role}")
     public ResponseEntity<?> getRoleResponsibilities(
-            @Parameter(description = "Role name (e.g., MANAGER, OPERATOR, ADMIN)")
             @PathVariable String role) {
         try {
             User.Role userRole = User.Role.valueOf(role.toUpperCase());

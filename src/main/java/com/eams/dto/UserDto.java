@@ -21,7 +21,6 @@ public class UserDto {
     private Role role;
 
     public UserDto() {
-        // Default constructor is required by Jackson
     }
 
     public UserDto(int id, String name, String username, Role role) {
