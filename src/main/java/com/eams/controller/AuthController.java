@@ -28,6 +28,7 @@ public class AuthController {
 
     @Autowired
     private IUserRepository userRepository;
+    
 
     @Autowired
     private IRoleDescriptionRepository roleDescriptionRepository;
