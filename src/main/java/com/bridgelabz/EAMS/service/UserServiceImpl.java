@@ -7,6 +7,9 @@ import com.bridgelabz.EAMS.entity.User;
 import com.bridgelabz.EAMS.entity.UserRole;
 import com.bridgelabz.EAMS.exception.UserException;
 import com.bridgelabz.EAMS.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserException("User not found with id: " + id));
         user.setRole(newRole);
         User updatedUser = userRepository.save(user);
-        return new UserResponse(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail(), updatedUser.getRole());
+        User refreshedUser = userRepository.findById(updatedUser.getId()).orElseThrow();
+        return new UserResponse(refreshedUser.getId(), refreshedUser.getName(), refreshedUser.getEmail(), refreshedUser.getRole());
     }
 }
