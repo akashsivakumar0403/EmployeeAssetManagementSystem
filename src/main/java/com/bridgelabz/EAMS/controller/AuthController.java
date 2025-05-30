@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;  // <-- Add this import
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +21,9 @@ public class AuthController {
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
-    public UserResponse register(@Valid @RequestBody RegistrationRequest request) {
-        return userService.registerUser(request);
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationRequest request) {
+        userService.registerUser(request);
+        return ResponseEntity.ok("User registered with role: " + request.getRole());
     }
 
     @PostMapping("/login")
@@ -29,5 +31,5 @@ public class AuthController {
     public UserResponse login(@Valid @RequestBody LoginRequest request) {
         return userService.loginUser(request);
     }
-}
 
+}
