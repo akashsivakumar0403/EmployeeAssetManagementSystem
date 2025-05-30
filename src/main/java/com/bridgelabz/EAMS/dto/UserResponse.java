@@ -1,4 +1,5 @@
 package com.bridgelabz.EAMS.dto;
+
 import com.bridgelabz.EAMS.entity.UserRole;
 
 public class UserResponse {
@@ -7,7 +8,10 @@ public class UserResponse {
     private String email;
     private UserRole role;
 
-    // Constructor
+    // No-args constructor
+    public UserResponse() {}
+
+    // All-args constructor
     public UserResponse(Long id, String name, String email, UserRole role) {
         this.id = id;
         this.name = name;
@@ -16,20 +20,14 @@ public class UserResponse {
     }
 
     // Getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public UserRole getRole() { return role; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
+    // Setters (needed by Jackson)
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) { this.email = email; }
+    public void setRole(UserRole role) { this.role = role; }
 }
