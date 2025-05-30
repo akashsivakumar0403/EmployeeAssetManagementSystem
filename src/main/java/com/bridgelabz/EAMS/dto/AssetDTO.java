@@ -1,10 +1,12 @@
-package com.bridgelabz.EAMS.entity;
+package com.bridgelabz.EAMS.dto;
+
+import com.bridgelabz.EAMS.entity.User;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "assets")
-public class Asset {
+public class AssetDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,8 @@ public class Asset {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User assignedTo;
+
+	private Long assignedToUserId;
 
     // --- Getters and Setters ---
 
@@ -71,11 +75,10 @@ public class Asset {
         this.thresholdPressure = thresholdPressure;
     }
 
-    public User getAssignedTo() {
-        return assignedTo;
+    public Long getAssignedToUserId() {
+        return assignedToUserId;
     }
-
-    public void setAssignedTo(User assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setAssignedToUserId(Long assignedToUserId) {
+        this.assignedToUserId = assignedToUserId;
     }
 }
