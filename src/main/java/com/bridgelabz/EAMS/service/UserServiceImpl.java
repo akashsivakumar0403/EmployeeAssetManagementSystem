@@ -4,12 +4,15 @@ import com.bridgelabz.EAMS.dto.LoginRequest;
 import com.bridgelabz.EAMS.dto.RegistrationRequest;
 import com.bridgelabz.EAMS.dto.UserResponse;
 import com.bridgelabz.EAMS.entity.User;
+import com.bridgelabz.EAMS.entity.UserRole;
 import com.bridgelabz.EAMS.exception.UserException;
 import com.bridgelabz.EAMS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,5 +50,22 @@ public class UserServiceImpl implements UserService {
         }
 
         return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole());
+    }
+
+	@Override
+	public List<UserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole()))
+                .collect(Collectors.toList());
+    }
+
+	@Override
+	public UserResponse updateUserRole(Long id, UserRole newRole) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserException("User not found with id: " + id));
+        user.setRole(newRole);
+        User updatedUser = userRepository.save(user);
+        return new UserResponse(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail(), updatedUser.getRole());
     }
 }
