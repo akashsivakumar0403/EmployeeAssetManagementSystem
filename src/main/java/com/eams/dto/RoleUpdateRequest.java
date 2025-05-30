@@ -1,10 +1,17 @@
 package com.eams.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RoleUpdateRequest {
 
-	public Object getRole() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @NotBlank(message = "Role is required")
+    private String role;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

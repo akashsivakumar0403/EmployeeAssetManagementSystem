@@ -4,7 +4,6 @@ import com.eams.dto.RegistrationRequest;
 import com.eams.entity.User;
 import com.eams.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,9 +11,6 @@ public class RegistrationService {
 
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public String register(RegistrationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -33,13 +29,16 @@ public class RegistrationService {
             return "Invalid role. Allowed values: MANAGER, OPERATOR.";
         }
 
-        // Prevent unauthorized ADMIN registration if needed
         if (role == User.Role.ADMIN) {
             return "You cannot assign ADMIN role during registration.";
         }
 
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        User user = new User(request.getName(), request.getUsername(), encodedPassword, role);
+        User user = new User(
+                request.getName(),
+                request.getUsername(),
+                request.getPassword(), // storing as plain text
+                role
+        );
         userRepository.save(user);
         return "Registration successful!";
     }

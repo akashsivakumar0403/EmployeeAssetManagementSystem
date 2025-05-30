@@ -81,7 +81,6 @@ public class Threshold {
         this.frequencyInMinutes = frequencyInMinutes;
     }
 
-    // Convenience method to check if snoozed
 
     public boolean isSnoozed() {
         return Boolean.TRUE.equals(snoozed);

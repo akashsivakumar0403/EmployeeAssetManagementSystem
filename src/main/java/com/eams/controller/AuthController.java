@@ -1,5 +1,4 @@
 package com.eams.controller;
-
 import com.eams.dto.LoginRequest;
 import com.eams.dto.RegistrationRequest;
 import com.eams.entity.User;
@@ -13,8 +12,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,10 +24,10 @@ public class AuthController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
+
     private IUserRepository userRepository;
 
-    @Autowired
+  
     private IRoleDescriptionRepository roleDescriptionRepository;
 
     @Operation(summary = "Login with username and password")
@@ -43,7 +44,7 @@ public class AuthController {
         boolean success = loginService.login(loginRequest.getUsername(), loginRequest.getPassword());
         return success ?
                 ResponseEntity.ok("Login successful!") :
-                ResponseEntity.status(401).body("Invalid username or password.");
+                ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
     }
 
     @Operation(summary = "Register a new user")
@@ -62,7 +63,7 @@ public class AuthController {
             @Valid @RequestBody RegistrationRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            return ResponseEntity.status(409).body("Username already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists.");
         }
 
         User.Role role;
@@ -87,13 +88,12 @@ public class AuthController {
                     content = @Content)
     })
     @GetMapping("/role-description/{role}")
-    public ResponseEntity<?> getRoleResponsibilities(
-            @PathVariable String role) {
+    public ResponseEntity<?> getRoleResponsibilities(@PathVariable String role) {
         try {
             User.Role userRole = User.Role.valueOf(role.toUpperCase());
             return roleDescriptionRepository.findByRole(userRole)
                     .map(desc -> ResponseEntity.ok(desc.getResponsibilities()))
-                    .orElse(ResponseEntity.status(404).body("Role description not found."));
+                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Role description not found."));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid role type.");
         }

@@ -15,13 +15,11 @@ public class AlertController {
 
     private final AlertService alertService;
 
-    // Constructor injection (preferred)
     @Autowired
     public AlertController(AlertService alertService) {
         this.alertService = alertService;
     }
 
-    // Get all active alerts
     @GetMapping("/active")
     public ResponseEntity<List<Alert>> getActiveAlerts() {
         List<Alert> alerts = alertService.getActiveAlerts();
