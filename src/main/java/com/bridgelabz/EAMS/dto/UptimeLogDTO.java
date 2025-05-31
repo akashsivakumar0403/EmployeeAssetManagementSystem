@@ -1,27 +1,12 @@
-package com.bridgelabz.EAMS.entity;
-
-import jakarta.persistence.*;
+package com.bridgelabz.EAMS.dto;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class UptimeLog {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class UptimeLogDTO {
     private Long assetId;
-
     private LocalDateTime startTime;
-
     private LocalDateTime endTime;
-
-    private String status; // "UP" or "DOWN"
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    private String status;
 
     public Long getAssetId() { return assetId; }
     public void setAssetId(Long assetId) { this.assetId = assetId; }
