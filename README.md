@@ -117,7 +117,7 @@ com.bridgelabz.eams
 ### 🚀 Steps
 
 1. **Clone the Repository**
-```bash
+```git bash
 git clone https://github.com/akashsivakumar0403/EnterpriseAssetMonitoringSystem.git
 cd EnterpriseAssetMonitoringSystem
 ```
