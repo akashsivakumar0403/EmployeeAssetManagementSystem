@@ -1,27 +1,12 @@
-package com.bridgelabz.EAMS.entity;
-
-import jakarta.persistence.*;
+package com.bridgelabz.EAMS.dto;
 
 import java.time.LocalDate;
 
-@Entity
-public class MaintenanceLog {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class MaintenanceLogDTO {
     private Long assetId;
-
     private LocalDate scheduledDate;
-
     private LocalDate completedDate;
-
     private String remarks;
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public Long getAssetId() { return assetId; }
     public void setAssetId(Long assetId) { this.assetId = assetId; }
