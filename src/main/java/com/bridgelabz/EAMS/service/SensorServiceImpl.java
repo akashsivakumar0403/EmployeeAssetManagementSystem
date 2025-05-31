@@ -23,7 +23,10 @@ public class SensorServiceImpl implements SensorService {
     @Autowired
     private AssetRepository assetRepository;
 
-    //@Override
+    @Autowired
+    private AlertService alertService;  // Inject AlertService
+
+    @Override
     public SensorDataResponse saveSensorData(SensorDataRequest request) {
         Asset asset = assetRepository.findById(request.getAssetId())
                 .orElseThrow(() -> new RuntimeException("Asset not found"));
@@ -36,7 +39,10 @@ public class SensorServiceImpl implements SensorService {
 
         SensorData savedData = sensorDataRepository.save(data);
 
-        // Convert to response
+        // Call alert check after saving sensor data
+        alertService.checkAndCreateAlert(request);
+
+        // Convert to response DTO
         SensorDataResponse response = new SensorDataResponse();
         response.setTemperature(savedData.getTemperature());
         response.setPressure(savedData.getPressure());
@@ -46,6 +52,7 @@ public class SensorServiceImpl implements SensorService {
         return response;
     }
 
+    @Override
     public List<SensorDataResponse> getSensorDataByAssetId(Long assetId) {
         List<SensorData> sensorDataList = sensorDataRepository.findByAssetId(assetId);
 
@@ -59,3 +66,4 @@ public class SensorServiceImpl implements SensorService {
         }).collect(Collectors.toList());
     }
 }
+

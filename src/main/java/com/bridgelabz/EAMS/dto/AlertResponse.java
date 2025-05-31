@@ -1,26 +1,17 @@
-package com.bridgelabz.EAMS.entity;
-import jakarta.persistence.*;
+package com.bridgelabz.EAMS.dto;
+import com.bridgelabz.EAMS.entity.AlertStatus;
+import com.bridgelabz.EAMS.entity.AlertType;
+
 import java.time.LocalDateTime;
 
-@Entity
-public class Alert {
+public class AlertResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long assetId;
-
-    @Enumerated(EnumType.STRING)
     private AlertType type;
-
     private String message;
-
-    @Enumerated(EnumType.STRING)
     private AlertStatus status;
-
     private LocalDateTime triggeredAt;
-
     public Long getId() {
         return id;
     }
