@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
                 request.getRole()
         );
 
-        userRepository.save(user);
+        user=userRepository.save(user);
 
         return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole());
     }
