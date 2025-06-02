@@ -3,7 +3,7 @@ package com.bridgelabz.EAMS.service;
 import com.bridgelabz.EAMS.dto.*;
 import com.bridgelabz.EAMS.entity.*;
 import com.bridgelabz.EAMS.repository.*;
-import com.bridgelabz.EAMS.service.MaintenanceService;
+import com.bridgelabz.EAMS.service.IMaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class MaintenanceServiceImpl implements MaintenanceService {
+public class MaintenanceServiceImpl implements IMaintenanceService {
 
     @Autowired
     private MaintenanceLogRepository maintenanceRepo;

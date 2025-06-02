@@ -1,7 +1,7 @@
 package com.bridgelabz.EAMS.controller;
 
 import com.bridgelabz.EAMS.dto.*;
-import com.bridgelabz.EAMS.service.MaintenanceService;
+import com.bridgelabz.EAMS.service.IMaintenanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MaintenanceController {
 
     @Autowired
-    private MaintenanceService maintenanceService;
+    private IMaintenanceService maintenanceService;
 
     @PostMapping("/log-maintenance")
     @Operation(summary = "Record a scheduled/completed maintenance log")

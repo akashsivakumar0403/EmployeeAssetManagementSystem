@@ -3,7 +3,7 @@ package com.bridgelabz.EAMS.controller;
 import com.bridgelabz.EAMS.dto.LoginRequest;
 import com.bridgelabz.EAMS.dto.RegistrationRequest;
 import com.bridgelabz.EAMS.dto.UserResponse;
-import com.bridgelabz.EAMS.service.UserService;
+import com.bridgelabz.EAMS.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     
     
 
@@ -33,7 +33,7 @@ public class AuthController {
     @Operation(summary = "Login an existing user")
     public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest request, HttpSession session) {
         UserResponse userResponse = userService.loginUser(request);
-        // Store user info in session for role checks later
+        // Stores user info in session for role checks later
         session.setAttribute("loggedInUser", userResponse);
         return ResponseEntity.ok(userResponse);
     }

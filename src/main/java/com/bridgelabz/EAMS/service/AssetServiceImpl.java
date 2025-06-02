@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AssetServiceImpl implements AssetService {
+public class AssetServiceImpl implements IAssetService {
 
     @Autowired
     private AssetRepository assetRepository;

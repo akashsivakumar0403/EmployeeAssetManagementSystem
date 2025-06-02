@@ -5,7 +5,7 @@ import com.bridgelabz.EAMS.dto.SensorDataRequest;
 
 import java.util.List;
 
-public interface AlertService {
+public interface IAlertService {
     List<AlertResponse> getActiveAlerts();
     List<AlertResponse> getResolvedAlerts();
     void resolveAlert(Long alertId);

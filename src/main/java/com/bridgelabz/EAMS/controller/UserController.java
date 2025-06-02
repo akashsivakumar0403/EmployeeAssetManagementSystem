@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.EAMS.dto.RoleUpdateRequest;
 import com.bridgelabz.EAMS.dto.UserResponse;
 import com.bridgelabz.EAMS.entity.UserRole;
-import com.bridgelabz.EAMS.service.UserService;
+import com.bridgelabz.EAMS.service.IUserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping
     public ResponseEntity<?> getAllUsers(HttpSession session) {

@@ -15,7 +15,7 @@ import com.bridgelabz.EAMS.repository.AssetRepository;
 import com.bridgelabz.EAMS.repository.SensorDataRepository;
 
 @Service
-public class SensorServiceImpl implements SensorService {
+public class SensorServiceImpl implements ISensorService {
 
     @Autowired
     private SensorDataRepository sensorDataRepository;
@@ -24,7 +24,7 @@ public class SensorServiceImpl implements SensorService {
     private AssetRepository assetRepository;
 
     @Autowired
-    private AlertService alertService;  // Inject AlertService
+    private IAlertService alertService;  // Inject AlertService
 
     @Override
     public SensorDataResponse saveSensorData(SensorDataRequest request) {

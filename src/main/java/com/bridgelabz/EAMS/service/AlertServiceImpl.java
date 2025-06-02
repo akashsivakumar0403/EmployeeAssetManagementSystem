@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AlertServiceImpl implements AlertService {
+public class AlertServiceImpl implements IAlertService {
 
     @Autowired
     private AlertRepository alertRepository;

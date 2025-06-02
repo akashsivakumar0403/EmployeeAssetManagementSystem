@@ -2,7 +2,7 @@ package com.bridgelabz.EAMS.controller;
 
 import com.bridgelabz.EAMS.dto.AlertResponse;
 import com.bridgelabz.EAMS.entity.AlertStatus;
-import com.bridgelabz.EAMS.service.AlertService;
+import com.bridgelabz.EAMS.service.IAlertService;
 import com.bridgelabz.EAMS.service.MailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AlertController {
 
     @Autowired
-    private AlertService alertService;
+    private IAlertService alertService;
 
     @Autowired
     private MailService mailService;
