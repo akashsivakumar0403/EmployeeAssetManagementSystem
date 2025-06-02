@@ -4,8 +4,6 @@ import com.bridgelabz.EAMS.entity.User;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "assets")
 public class AssetDTO {
 
     @Id
@@ -25,7 +23,6 @@ public class AssetDTO {
 
 	private Long assignedToUserId;
 
-    // --- Getters and Setters ---
 
     public Long getId() {
         return id;

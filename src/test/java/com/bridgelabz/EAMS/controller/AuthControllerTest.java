@@ -4,7 +4,7 @@ import com.bridgelabz.EAMS.dto.LoginRequest;
 import com.bridgelabz.EAMS.dto.RegistrationRequest;
 import com.bridgelabz.EAMS.dto.UserResponse;
 import com.bridgelabz.EAMS.entity.UserRole;
-import com.bridgelabz.EAMS.service.UserService;
+import com.bridgelabz.EAMS.service.IUserService;
 
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 class AuthControllerTest {
 
     @Mock
-    private UserService userService;
+    private IUserService userService;
 
     @Mock
     private HttpSession session;

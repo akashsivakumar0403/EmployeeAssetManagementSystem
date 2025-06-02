@@ -6,7 +6,7 @@ import com.bridgelabz.EAMS.dto.RegistrationRequest;
 import com.bridgelabz.EAMS.dto.UserResponse;
 import com.bridgelabz.EAMS.entity.UserRole;
 
-public interface UserService {
+public interface IUserService {
     UserResponse registerUser(RegistrationRequest request);
     UserResponse loginUser(LoginRequest request);
     List<UserResponse> getAllUsers();

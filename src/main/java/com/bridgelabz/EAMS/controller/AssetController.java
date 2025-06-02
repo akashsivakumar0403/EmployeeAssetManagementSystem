@@ -1,7 +1,7 @@
 package com.bridgelabz.EAMS.controller;
 
 import com.bridgelabz.EAMS.dto.AssetDTO;
-import com.bridgelabz.EAMS.service.AssetService;
+import com.bridgelabz.EAMS.service.IAssetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AssetController {
 
     @Autowired
-    private AssetService assetService;
+    private IAssetService assetService;
 
     @PostMapping
     @Operation(summary = "Add a new asset")

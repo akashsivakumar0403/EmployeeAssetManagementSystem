@@ -5,7 +5,7 @@ import com.bridgelabz.EAMS.dto.sensor.SensorDataResponse;
 
 import java.util.List;
 
-public interface SensorService {
+public interface ISensorService {
     SensorDataResponse saveSensorData(SensorDataRequest request);
     List<SensorDataResponse> getSensorDataByAssetId(Long assetId);
 }

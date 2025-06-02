@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import com.bridgelabz.EAMS.dto.SensorDataRequest;
 import com.bridgelabz.EAMS.dto.sensor.SensorDataResponse;
-import com.bridgelabz.EAMS.service.SensorService;
+import com.bridgelabz.EAMS.service.ISensorService;
 
 @RestController
 @RequestMapping("/api/sensors")
 public class SensorDataController {
 
     @Autowired
-    private SensorService sensorService;
+    private ISensorService sensorService;
 
     @PostMapping("/send-data")
     public ResponseEntity<SensorDataResponse> sendSensorData(@RequestBody SensorDataRequest request) {

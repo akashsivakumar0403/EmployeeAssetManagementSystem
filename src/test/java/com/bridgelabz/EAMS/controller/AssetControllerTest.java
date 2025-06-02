@@ -1,7 +1,7 @@
 package com.bridgelabz.EAMS.controller;
 
 import com.bridgelabz.EAMS.dto.AssetDTO;
-import com.bridgelabz.EAMS.service.AssetService;
+import com.bridgelabz.EAMS.service.IAssetService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ class AssetControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AssetService assetService;
+    private IAssetService assetService;
 
     @Autowired
     private ObjectMapper objectMapper;

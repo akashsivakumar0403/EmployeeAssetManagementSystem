@@ -27,7 +27,7 @@ class SensorServiceImplTest {
     private AssetRepository assetRepository;
 
     @Mock
-    private AlertService alertService;
+    private IAlertService alertService;
 
     @BeforeEach
     void setUp() {
