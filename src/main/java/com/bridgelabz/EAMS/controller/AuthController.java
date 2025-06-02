@@ -19,6 +19,8 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    
+    
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")

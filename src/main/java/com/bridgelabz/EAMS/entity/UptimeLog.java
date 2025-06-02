@@ -17,7 +17,7 @@ public class UptimeLog {
 
     private LocalDateTime endTime;
 
-    private String status; // "UP" or "DOWN"
+    private String status; 
 
     // Getters and Setters
     public Long getId() { return id; }

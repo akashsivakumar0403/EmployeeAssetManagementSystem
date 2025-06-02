@@ -21,9 +21,7 @@ public class Asset {
     @JoinColumn(name = "user_id")
     private User assignedTo;
 
-    // --- Getters and Setters ---
-
-    public Long getId() {
+   public Long getId() {
         return id;
     }
 
