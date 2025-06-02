@@ -36,13 +36,17 @@ class AuthControllerTest {
         request.setPassword("pass123");
         request.setRole(UserRole.MANAGER);
 
-        when(userService.registerUser(request)).thenReturn(new UserResponse());
+        // FIXED: registerUser is a void method
+        doNothing().when(userService).registerUser(any(RegistrationRequest.class));
+
 
         ResponseEntity<String> response = authController.registerUser(request);
+
         assertEquals("User registered with role: MANAGER", response.getBody());
         verify(userService).registerUser(request);
     }
-    
+
+
     @Test
     void testRegisterUser_InvalidEmail() {
         RegistrationRequest request = new RegistrationRequest();
@@ -51,8 +55,8 @@ class AuthControllerTest {
         request.setPassword("password123");
         request.setRole(UserRole.OPERATOR);
 
-        when(userService.registerUser(request))
-            .thenThrow(new IllegalArgumentException("Invalid email format"));
+        doThrow(new IllegalArgumentException("Invalid email format"))
+                .when(userService).registerUser(request);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             authController.registerUser(request);
@@ -62,7 +66,6 @@ class AuthControllerTest {
         verify(userService).registerUser(request);
     }
 
-
     @Test
     void testLogin_Success() {
         LoginRequest request = new LoginRequest("john@example.com", "pass123");
@@ -71,17 +74,25 @@ class AuthControllerTest {
         when(userService.loginUser(request)).thenReturn(mockResponse);
 
         ResponseEntity<UserResponse> response = authController.login(request, session);
+
         assertEquals(mockResponse, response.getBody());
+        verify(userService).loginUser(request);
         verify(session).setAttribute("loggedInUser", mockResponse);
     }
 
     @Test
     void testLogin_InvalidCredentials() {
-        LoginRequest request = new LoginRequest("bad@example.com", "wrong");
+        LoginRequest request = new LoginRequest("john@example.com", "wrongpass");
 
-        when(userService.loginUser(request)).thenThrow(new RuntimeException("Invalid credentials"));
+        when(userService.loginUser(request))
+                .thenThrow(new RuntimeException("Invalid credentials"));
 
-        assertThrows(RuntimeException.class, () -> authController.login(request, session));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            authController.login(request, session);
+        });
+
+        assertEquals("Invalid credentials", exception.getMessage());
         verify(userService).loginUser(request);
+        verifyNoInteractions(session);
     }
 }

@@ -89,6 +89,11 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>com.bridgelabz</groupId>
+			<artifactId>employeepayrollapp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
     <build>

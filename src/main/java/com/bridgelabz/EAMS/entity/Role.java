@@ -10,7 +10,6 @@ public class Role {
 
     private String name;
 
-    // Constructors, Getters, Setters
     public Role() {}
 
     public Role(Long id, String name) {
